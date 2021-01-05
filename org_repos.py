@@ -2,6 +2,7 @@
 # > python3 org_repos.py --org buzzfeed --token secret
 
 import argparse
+import csv
 import requests
 import sys
 
@@ -26,8 +27,13 @@ def get_repos(org, token):
 def main(org, token):
     repos = get_repos(org, token)
     print(f"Found {len(repos)} repositories for {org}.")
-    for repo in repos:
-        print(f"{repo['name']}, Archived: {repo['archived']}, Private: {repo['private']}")
+
+    with open('org_repos.csv', mode='w') as repos_csv:
+        repos_writer = csv.writer(repos_csv, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+        repos_writer.writerow(['name', 'archived', 'private'])
+        for repo in repos:
+            repos_writer.writerow([repo['name'], repo['archived'], repo['private']])
 
 
 if __name__ == '__main__':
