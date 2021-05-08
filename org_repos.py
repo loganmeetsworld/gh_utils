@@ -1,4 +1,4 @@
-# A basic script I made to grab all repos for an organization and tell me if they are archived or privae
+# A basic script to grab all repos for an organization and tell me if they are archived or private
 # > python3 org_repos.py --org buzzfeed --token secret
 
 import argparse
