@@ -22,20 +22,23 @@ def get_stars(token):
     return repos
 
 
-def main(token):
+def main(token, read_only):
     stars = get_stars(token)
     print(f"Found {len(stars)} stars.")
     for star in stars:
         owner = star['owner']['login']
         repo = star['name']
         url = f"https://api.github.com/user/starred/{owner}/{repo}"
-        requests.delete(url)
+        print(f"Unstarring {owner}/{repo}")
+        if not read_only:
+            requests.delete(url)
 
 
 if __name__ == '__main__':
     cl = argparse.ArgumentParser(description="This script removes all your stars.")
     cl.add_argument("--token", help="a session token for accessing stars")
+    cl.add_argument("--read-only", help="lists stars to remove")
     args = cl.parse_args()
 
     print("Removing stars from your account")
-    sys.exit(main(args.token))
+    sys.exit(main(args.token, args.read_only))
